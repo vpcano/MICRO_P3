@@ -13,18 +13,14 @@ _imparPositivo PROC FAR
     mov ax, [bp+6]
     and ax, 8001h
 
-    cmp ax, 8001h
-    je yes
+    cmp ax, 1
+    je fin
     mov ax, 0
-    jmp fin
-    yes:
-        mov ax, 1
 
     fin:
+        POP BP
 
-    POP BP
-
-    RET
+        RET
 
 _imparPositivo ENDP
 
@@ -33,6 +29,8 @@ _calculaDigito PROC FAR
 
     PUSH BP
     MOV BP, SP
+    
+    push bx cx dx
 
     ; recuperar argumentos
     mov cx, [bp+8]
@@ -48,6 +46,7 @@ _calculaDigito PROC FAR
 
     mov ax, dx
 
+    pop dx cx bx
     POP BP
 
     RET
@@ -61,18 +60,48 @@ _siguientePrimo PROC FAR
     MOV BP, SP
 
     ; salvar registros a usar
+    push bx cx dx
 
-    ; recuperar argumentos
+    mov bx, [bp+6]
+    sig_num:
+        inc bx
+        call is_prime
+        cmp ax, 0
+        jne finP
+        jmp sig_num
 
-    ; ...
+    ; recibe en bx el numero que queremos comprobar que es primo
+    ; si no es primo devuelve 0 en ax
+    ; si es primo, devuelve en ax el propio numero
+    is_prime PROC NEAR
+        mov cx, 1
+        sig_factor:
+            inc cx
+            cmp cx, bx
+            je yesP
+            mov ax, bx
+            mov dx, 0
+            div cx
+            cmp dx, 0
+            jne sig_factor
+            ; no es primo
+            mov ax, 0
+            ret
 
-    ; mover a ax (o a dx:ax) retorno de la funcion
+        yesP:
+            mov ax, bx
+            ret
+    
+    is_prime ENDP
 
-    ;recuperar registros usados
+    finP:
 
-    POP BP
+        ;recuperar registros usados
+        pop dx cx bx
 
-    RET
+        POP BP
+
+        RET
 
 _siguientePrimo ENDP
 
