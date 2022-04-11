@@ -75,9 +75,7 @@ int main() {
                 break;
         }
 
-        if (res != -1) {
-            printf("El resultado obtenido es %d\n", res);
-        }
+        printf("El resultado obtenido es %d\n", res);
     }
 
 
