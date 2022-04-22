@@ -51,7 +51,7 @@ _calculaSegundoDC PROC FAR
     mov bp, sp
     push bx cx dx si ds
 
-    lds si, [bp+6]
+    lds si, [bp + 6]
     mov bx, 0
     mov cx, 10
     mov dx, 1
@@ -59,7 +59,7 @@ _calculaSegundoDC PROC FAR
     calcularSuma:
         mov ah, 0
         mov al, [si]
-        sub al, '0'
+        sub al, 48
         mul dl
         add bx, ax
         xchg ax, dx

@@ -63,7 +63,7 @@ int main() {
             case 5:
                 printf("Introduce un numero de cuenta: ");
                 scanf("%s", str2);
-                res = calculaSegundoDC(str1);
+                res = calculaSegundoDC(str2);
                 break;
 
             case 6:
