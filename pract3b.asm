@@ -49,7 +49,7 @@ _calculaSegundoDC PROC FAR
 
     push bp
     mov bp, sp
-    push bx dx si
+    push bx dx si ds
 
     lds si, [bp+6]
     mov bx, 0
@@ -100,7 +100,7 @@ _calculaSegundoDC PROC FAR
 
     final:
         mov ax, dx
-        pop si dx bx 
+        pop ds si dx bx 
         pop bp
         ret
 
