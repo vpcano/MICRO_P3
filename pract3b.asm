@@ -49,58 +49,42 @@ _calculaSegundoDC PROC FAR
 
     push bp
     mov bp, sp
-    push bx dx si
+    push bx cx dx si ds
 
     lds si, [bp+6]
     mov bx, 0
-    mov dx, 0
-
-    mov dl, 1
-    call calcularSuma
-    mov dl, 2
-    call calcularSuma
-    mov dl, 4
-    call calcularSuma
-    mov dl, 8
-    call calcularSuma
-    mov dl, 5
-    call calcularSuma
-    mov dl, 10
-    call calcularSuma
-    mov dl, 9
-    call calcularSuma
-    mov dl, 7
-    call calcularSuma
-    mov dl, 3
-    call calcularSuma
-    mov dl, 6
-    call calcularSuma
-    jmp modulo
+    mov cx, 10
+    mov dx, 1
 
     calcularSuma:
         mov ah, 0
-        mov dh, 0
         mov al, [si]
         sub al, '0'
         mul dl
         add bx, ax
+        xchg ax, dx
+        shl ax, 1
+        mov dx, 11
+        div dl
+        mov dh, 0
+        mov dl, ah
         inc si
-        ret
+        dec cx
+        jne calcularSuma
 
-    modulo:
-        mov dx, 0
-        mov ax, bx
-        mov bx, 11
-        div bx
-        cmp dx, 1
-        je final
+    mov dx, 0
+    mov ax, bx
+    mov bx, 11
+    div bx
+    cmp dx, 1
+    je final
 
     sub dx, 11
     neg dx
 
     final:
         mov ax, dx
-        pop si dx bx 
+        pop ds si dx cx bx 
         pop bp
         ret
 
